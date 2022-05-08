@@ -51,7 +51,10 @@ public class BlobfishController : MonoBehaviour {
                 case State.isHungry:
                     intervalTimeDiff = 0f;
                     if(currentTarget != null && currentTarget.activeInHierarchy) MoveToTarget();
-                    else currentState = State.isIdle;
+                    else {
+                        currentState = State.isIdle;
+                        statusText.SetActive(false);
+                    }
                     break;
             }
         }
@@ -83,10 +86,10 @@ public class BlobfishController : MonoBehaviour {
     }
 
     private void UpdateStateInterval() {
+        statusText.SetActive(false);
         int randomResult = Random.Range(0, 2);
         switch(randomResult) {
             case 0:
-                statusText.SetActive(false);
                 currentState = currentState == State.isIdle ? State.isRoaming : State.isIdle;
                 if(currentState == State.isRoaming) {
                     float x = Random.Range(-1f, 1f);
@@ -100,7 +103,6 @@ public class BlobfishController : MonoBehaviour {
             case 1:
                 currentTarget = sceneManager.GetRandomObject(transform.position);
                 currentState = currentTarget != null ? State.isHungry : State.isIdle;
-                if(currentState == State.isHungry) statusText.SetActive(true);
                 break;
         }
     }
@@ -127,6 +129,7 @@ public class BlobfishController : MonoBehaviour {
 
     private void MoveToTarget() {
         if(currentTarget == null) return;
+        statusText.SetActive(true);
         Vector2 originalPosition = transform.position;
         Vector2 targetPosition = currentTarget.transform.position;
         float delta = moveSpeed * Time.deltaTime;
