@@ -31,7 +31,7 @@ public class ObjectController : MonoBehaviour {
     }
  
     public Vector2 GetSpawnPosition() {
-        float posX = Random.Range(-2.5f, 2.5f);
+        float posX = Random.Range(-2.25f, 2.25f);
         float posY = fixSpawnPoint ? spawnPosY : Random.Range(-4f, 4f);
         Vector2 pos = new Vector2(posX, posY);
         Vector2 blobfishPos = GameObject.Find("Blobfish").transform.position;
